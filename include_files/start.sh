@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function prepare_fs {
+  echo "Creating necessary folders and setting permission..."
   mkdir -p /usr/local/redmine/{log,files,tmp,tmp/pdf,public/plugin_assets}
   chown -R www-data:www-data /usr/local/redmine*
   chmod -R 0755 /usr/local/redmine/{files,tmp,tmp/pdf,public/plugin_assets}
@@ -19,12 +20,14 @@ function generate_secret {
 }
 
 function launch_apache {
+  echo "Launching Apache..."
   apache2ctl \
     -f /etc/apache2/redmine_apache.conf \
     -D FOREGROUND
 }
 
 function enable_git_user {
+  echo "Adding 'git' user and group..."
   groupadd -g 3002 git
   useradd -u 3002 -g git git
   usermod -a -G git www-data
@@ -47,8 +50,6 @@ if [ -n "$RUN_MIGRATION" ]; then
   run_migration
 else
   generate_secret
-
-  echo "Launching Apache..."
   launch_apache &
   tail -f /var/log/apache2/*.log /usr/local/redmine/log/production.log
 fi
