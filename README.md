@@ -17,20 +17,68 @@ In order to do this, we will need to create the following folders on your host s
 
 You may place these folders somewhere else, just make sure you update the corresponding paths below.
 
+With that done, you now need to create two files. First, we need to create the `/usr/local/redmine-store/config/configuration.yml` file. You'll find plenty of examples [here](http://www.redmine.org/projects/redmine/repository/entry/branches/2.5-stable/config/configuration.yml.example). A real simple config file would only include the email configuration, and look something like this:
 
+    production:
+      email_delivery:
+        delivery_method: :smtp
+        smtp_settings:
+          enable_starttls_auto: true
+          address: "smtp.gmail.com"
+          port: 587
+          domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+          authentication: :plain
+          user_name: "your_email@gmail.com"
+          password: "your_password"
 
-## Connecting to MySQL
+Next, we need to configure the database connection. This is a bit trickier. While Redmine could use multiple back-ends, this container is configured ot use MySQL.
 
-* Socket
+Since we don't run the database in the same Docker container, we need to connect over TCP/IP, or alternatively use a socket and mount that into the container.
+
+One 'gotcha' here is that you cannot connect to '127.0.0.1' on the host server within a Docker container. Hence, if you're running MySQL on the same server, the easiest way is to use a socket.
+
+If you're using a socket, then you're `/usr/local/redmine-store/config/database.yml` file would look something like this:
+
+    production:
+      adapter: mysql2
+      database: redmine
+      socket: /tmp/mysql.sock
+      username: redmine
+      password: something
+      encoding: utf8
+
+When using a socket, you also need to make sure to pass on the following to your Docker run command `-v /path/to/mysql.sock:/tmp/mysql.sock`.
+
+If you're on the other hand connecting to a database on a different host, it would look look something like this (replace a.b.c.d with the IP of your server).
 
     adapter: mysql2
-    host: localhost
-    username: root
-    password: xxxx
-    database: xxxx
-    socket: /tmp/mysql.sock
+    database: redmine
+    host: a.b.c.d
+    port: 3306
+    username: redmine
+    password: something
+    encoding: utf8
 
+## Running
 
-* TCP/IP
+On the first run, you need to run the container with the `RUN_MIGRATION=True` environment variable. This will trigger the migration to run
 
+    docker run --rm \
+      -v /usr/local/redmine-store/config/database.yml:/usr/local/redmine/config/database.yml:ro \
+      -v /usr/local/redmine-store/config/configuration.yml:/usr/local/redmine/config/configuration.yml:ro \
+      -v /usr/local/redmine-store/files:/usr/local/redmine/files \
+      -p 3000:3000 \
+      -e "RUN_MIGRATION=True" \
+      -i -t vpetersson/redmine
 
+Assuming the migration went well, you can now start the instance using:
+
+    docker run -d \
+      -v /usr/local/redmine-store/config/database.yml:/usr/local/redmine/config/database.yml:ro \
+      -v /usr/local/redmine-store/config/configuration.yml:/usr/local/redmine/config/configuration.yml:ro \
+      -v /usr/local/redmine-store/files:/usr/local/redmine/files \
+      -p 3000:3000 \
+      --name redmine \
+      -i -t vpetersson/redmine
+
+You should now be able to connect to redmine on `0.0.0.0:3000` on your host server. Since no SSL is used here, it is recommended that you use something like Nginx with SSL as a reverse proxy to connect to Redmine.
