@@ -9,7 +9,7 @@ MAINTAINER Viktor Petersson <vpetersson@wireload.net>
 RUN apt-get update
 RUN apt-get -y upgrade
 
-RUN apt-get install -y wget ruby build-essential imagemagick libmagickwand-dev libmysqlclient-dev apache2 apt-transport-https ca-certificates
+RUN apt-get install -y wget ruby ruby-dev build-essential imagemagick libmagickwand-dev libmysqlclient-dev apache2 apt-transport-https ca-certificates
 
 # Install Phusion Passenger
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
@@ -21,17 +21,12 @@ RUN apt-get install -y libapache2-mod-passenger
 RUN wget -O /tmp/redmine.tar.gz http://www.redmine.org/releases/redmine-2.5.2.tar.gz
 RUN tar xvfz /tmp/redmine.tar.gz -C /usr/local/
 RUN ln -s /usr/local/redmine-* /usr/local/redmine
+WORKDIR /usr/local/redmine
 
 # Install dependencies
-RUN cd /usr/local/redmine
 RUN gem install bundler
-RUN bundle install --without development test
 RUN gem install mysql2
-
-# Create file structure
-RUN mkdir -p tmp tmp/pdf public/plugin_assets
-RUN chown -R www-data:www-data files log tmp public/plugin_assets
-RUN chmod -R 755 files log tmp public/plugin_assets
+RUN bundle install --without development test
 
 # Add files and clean up unnecessary files
 ADD include_files/redmine_apache.conf /etc/apache2/redmine_apache.conf
