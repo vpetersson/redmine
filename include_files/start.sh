@@ -27,7 +27,7 @@ function launch_apache {
 function enable_git_user {
   groupadd -g 3002 git
   useradd -u 3002 -g git git
-  usermod usermod -a -G git www-data
+  usermod -a -G git www-data
 }
 
 
