@@ -2,9 +2,9 @@
 
 ** WORK IN PROGRESS **
 
-Unless you're a Rails-shop, chances are you don't want to pollute your server with a ton of Rails related dependencies caused by Redmine. Yet, Redmine is a great too, so you want to use it.
+Unless you're a Rails-shop, chances are you don't want to pollute your server with a ton of Rails related dependencies caused by Redmine. Yet, [Redmine](http://www.redmine.org/) is a great too, so you want to use it.
 
-The solution is to put Redmine in a Docker container, and get the best of both worlds.
+One solution to this is to put Redmine in a [Docker](http://docker.io) container, and get the best of both worlds.
 
 This container is a full-blown Redmine installation running on Ubuntu 14.04 (with Apache and Passenger).
 
@@ -89,11 +89,14 @@ Assuming the migration went well, you can now start the instance using:
       --name redmine \
       -i -t vpetersson/redmine
 
-You should now be able to connect to redmine on `0.0.0.0:3000` on your host server. Since no SSL is used here, it is recommended that you use something like Nginx with SSL as a reverse proxy to connect to Redmine.
+You should now be able to connect to redmine on `0.0.0.0:3000` on your host server. Since no SSL is used here, it is recommended that you use something like Nginx with SSL as a reverse proxy in front of Redmine.
 
-
-### Optional settings
+### Optional variables
 
  * -e "ENABLE_GIT_USER=True"
 
-This setting will create a git-user and group in the VM. This is useful if you want to be able to read from a git repository on the host. The GID and UID is '3002'.
+Setting this variable will create a git-user and group in the VM. This is useful if you want to be able to read from a git repository on the host. The GID and UID is '3002'.
+
+ * -e "RUN_MIGRATION=True"
+
+This variable will trigger a migration to be run. This is useful for either the first time you start Redmine on an empty database, or if you've upgraded to a new version. Using this option for every start isn't recommended.
