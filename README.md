@@ -12,7 +12,7 @@ This container is a full-blown Redmine installation running on Ubuntu 14.04 (wit
 
 To fetch this pre-installed Redmine container, simply run:
 
-    docker pull vpetersson/redmine
+    $ docker pull vpetersson/redmine
 
 ## Preparing the host
 
@@ -72,7 +72,7 @@ If you're on the other hand connecting to a database on a different host, it wou
 
 On the first run, you need to run the container with the `RUN_MIGRATION=True` environment variable. This will trigger the migration to run
 
-    docker run --rm \
+    $ docker run --rm \
       -v /usr/local/redmine-store/config/database.yml:/usr/local/redmine/config/database.yml:ro \
       -v /usr/local/redmine-store/config/configuration.yml:/usr/local/redmine/config/configuration.yml:ro \
       -v /usr/local/redmine-store/files:/usr/local/redmine/files \
@@ -81,7 +81,7 @@ On the first run, you need to run the container with the `RUN_MIGRATION=True` en
 
 Assuming the migration went well, you can now start the instance using:
 
-    docker run -d \
+    $ docker run -d \
       -v /usr/local/redmine-store/config/database.yml:/usr/local/redmine/config/database.yml:ro \
       -v /usr/local/redmine-store/config/configuration.yml:/usr/local/redmine/config/configuration.yml:ro \
       -v /usr/local/redmine-store/files:/usr/local/redmine/files \
