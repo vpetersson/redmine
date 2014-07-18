@@ -8,6 +8,14 @@ The solution is to put Redmine in a Docker container, and get the best of both w
 
 This container is a full-blown Redmine installation running on Ubuntu 14.04 (with Apache and Passenger).
 
+## Fetching the container
+
+To fetch this pre-installed Redmine container, simply run:
+
+    docker pull vpetersson/redmine
+
+## Preparing the host
+
 Given that Docker containers are designed to be somewhat ephimeral, we don't want to store our persistant data inside the container. All we want is Redmine and the required dependencies. To resolve this, we will utilize Docker's 'Volumes' support, and mount the relevant files outside of Docker. This also allows us to easily upgrade between Redmine version (i.e. upgrading the Docker container) without losing any data.
 
 In order to do this, we will need to create the following folders on your host server:
@@ -60,7 +68,7 @@ If you're on the other hand connecting to a database on a different host, it wou
       password: something
       encoding: utf8
 
-## Running
+## Running the container
 
 On the first run, you need to run the container with the `RUN_MIGRATION=True` environment variable. This will trigger the migration to run
 
