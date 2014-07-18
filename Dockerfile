@@ -9,7 +9,7 @@ MAINTAINER Viktor Petersson <vpetersson@wireload.net>
 RUN apt-get update
 RUN apt-get -y upgrade
 
-RUN apt-get install -y wget ruby ruby-dev build-essential imagemagick libmagickwand-dev libmysqlclient-dev apache2 apt-transport-https ca-certificates
+RUN apt-get install -y wget ruby ruby-dev build-essential imagemagick libmagickwand-dev libmysqlclient-dev apache2 apt-transport-https ca-certificates git-core
 
 # Install Phusion Passenger
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7

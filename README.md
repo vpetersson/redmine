@@ -2,7 +2,7 @@
 
 ** WORK IN PROGRESS **
 
-Unless you're a Rails-shop, chances are you don't want to pollute your server with a to of Rails related dependencies caused by Redmine. Yet, Redmine is a great too, so you want to use it.
+Unless you're a Rails-shop, chances are you don't want to pollute your server with a ton of Rails related dependencies caused by Redmine. Yet, Redmine is a great too, so you want to use it.
 
 The solution is to put Redmine in a Docker container, and get the best of both worlds.
 
@@ -51,13 +51,14 @@ When using a socket, you also need to make sure to pass on the following to your
 
 If you're on the other hand connecting to a database on a different host, it would look look something like this (replace a.b.c.d with the IP of your server).
 
-    adapter: mysql2
-    database: redmine
-    host: a.b.c.d
-    port: 3306
-    username: redmine
-    password: something
-    encoding: utf8
+    production:
+      adapter: mysql2
+      database: redmine
+      host: a.b.c.d
+      port: 3306
+      username: redmine
+      password: something
+      encoding: utf8
 
 ## Running
 
@@ -67,7 +68,6 @@ On the first run, you need to run the container with the `RUN_MIGRATION=True` en
       -v /usr/local/redmine-store/config/database.yml:/usr/local/redmine/config/database.yml:ro \
       -v /usr/local/redmine-store/config/configuration.yml:/usr/local/redmine/config/configuration.yml:ro \
       -v /usr/local/redmine-store/files:/usr/local/redmine/files \
-      -p 3000:3000 \
       -e "RUN_MIGRATION=True" \
       -i -t vpetersson/redmine
 
@@ -82,3 +82,10 @@ Assuming the migration went well, you can now start the instance using:
       -i -t vpetersson/redmine
 
 You should now be able to connect to redmine on `0.0.0.0:3000` on your host server. Since no SSL is used here, it is recommended that you use something like Nginx with SSL as a reverse proxy to connect to Redmine.
+
+
+### Optional settings
+
+ * -e "ENABLE_GIT_USER=True"
+
+This setting will create a git-user and group in the VM. This is useful if you want to be able to read from a git repository on the host. The GID and UID is '3002'.

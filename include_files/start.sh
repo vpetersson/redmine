@@ -24,12 +24,26 @@ function launch_apache {
     -D FOREGROUND
 }
 
+function enable_git_user {
+  groupadd -g 3002 git
+  useradd -u 3002 -g git git
+  usermod usermod -a -G git www-data
+}
+
+
 # Make sure the permissions are properly set.
 prepare_fs
 
+# If 'ENABLE_GIT_USER' is set, create a `git` user
+# and add www-data to the user. This is useful if you
+# need to access a git repository on the host server.
+if [ -n "$ENABLE_GIT_USER" ]; then
+  enable_git_user
+fi
+
 # Only run the migration if the environment
 # variable 'RUN_MIGRATION' is set.
-if [ -n "$RUN_UPGRADE" ]; then
+if [ -n "$RUN_MIGRATION" ]; then
   run_migration
 else
   generate_secret
