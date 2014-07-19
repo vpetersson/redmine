@@ -23,6 +23,7 @@ In order to do this, we will need to create the following folders on your host s
  * /usr/local/redmine-store/config
  * /usr/local/redmine-store/files
  * /usr/local/redmine-store/plugins (optional)
+ * /usr/local/redmine-store/themes (optional)
 
 You may place these folders somewhere else, just make sure you update the corresponding paths below.
 
@@ -92,6 +93,8 @@ Assuming the migration went well, you can now start the instance using:
 
 You should now be able to connect to redmine on `0.0.0.0:3000` on your host server. Since no SSL is used here, it is recommended that you use something like Nginx with SSL as a reverse proxy in front of Redmine.
 
+You will also find some useful scripts [here](https://github.com/vpetersson/redmine/tree/master/bin).
+
 ### Optional variables
 
  * -e "ENABLE_GIT_USER=True"
@@ -118,4 +121,21 @@ Next, mount the volume by adding:
 
 You should now be able to install plugins into this folder on the host.
 
-If your plugin requires additional rependencies, make sure to add `-e "INSTALL_BUNDLE=True"`.
+If your plugin requires additional rependencies, make sure to add `-e "INSTALL_BUNDLE=True"` when you run your upgrade.
+
+### How do I use themes?
+
+In order to use themes with Redmine, you first need to download Redmine and copy in the default themes into `/usr/local/redmine-store/themes`. After you've done this, you can copy in your themes into this folder.
+
+With that done, now append the following mount to Redmine:
+
+    -v /usr/local/redmine-store/themes:/usr/local/redmine/public/themes
+
+Your themes should now show up in the theme section.
+
+## Recommended plugins
+
+ * [Agile Plugin](http://redminecrm.com/projects/agile/pages/1): Adds Agile to Redmine, complete with burn-down charts.
+ * [Issue Cecklist](http://redminecrm.com/projects/checklist/pages/1): Adds a checklist to issues.
+ * [Readme At Repositories](http://www.redmine.org/plugins/readme_at_repositories): Displays README files in repositories.
+ * [Flowdock](https://github.com/flowdock/redmine_flowdock): A [Flowdock](https://www.flowdock.com) integration for Redmine.
