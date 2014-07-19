@@ -1,12 +1,10 @@
 # Dockerized Redmine
 
-** WORK IN PROGRESS **
+If you're like me, you like to keep your servers as clean as possible. However, in order to run [Redmine](http://www.redmine.org/), you need to install *a lot* of Ruby packages.
 
-Unless you're a Rails-shop, chances are you don't want to pollute your server with a ton of Rails related dependencies caused by Redmine. Yet, [Redmine](http://www.redmine.org/) is a great too, so you want to use it.
+With this solution, you can put Redmine in a [Docker](http://docker.io) container. This way, you can keep your host server clean, while also simplifying and speeding up the deployment of Redmine.
 
-One solution to this is to put Redmine in a [Docker](http://docker.io) container, and get the best of both worlds.
-
-This container is a full-blown Redmine installation running on Ubuntu 14.04 (with Apache and Passenger).
+The container contains a full-blown Redmine installation running on Ubuntu 14.04 (with Apache and Passenger).
 
 ## Fetching the container
 
@@ -16,7 +14,7 @@ To fetch this pre-installed Redmine container, simply run:
 
 ## Preparing the host
 
-Given that Docker containers are designed to be somewhat ephimeral, we don't want to store our persistant data inside the container. All we want is Redmine and the required dependencies. To resolve this, we will utilize Docker's 'Volumes' support, and mount the relevant files outside of Docker. This also allows us to easily upgrade between Redmine version (i.e. upgrading the Docker container) without losing any data.
+Given that Docker containers are designed to be somewhat ephimeral, we don't want to store our persistant data inside the container. All we want is Redmine and the required dependencies. We will then utilize Docker's 'Volumes' support, and mount the relevant files outside of Docker (on the host system). This also allows us to easily upgrade between Redmine version (i.e. upgrading the Docker container) without losing any data.
 
 In order to do this, we will need to create the following folders on your host server:
 
