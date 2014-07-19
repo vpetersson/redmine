@@ -134,6 +134,6 @@ Your themes should now show up in the theme section.
 ## Recommended plugins
 
  * [Agile Plugin](http://redminecrm.com/projects/agile/pages/1): Adds Agile to Redmine, complete with burn-down charts.
- * [Issue Cecklist](http://redminecrm.com/projects/checklist/pages/1): Adds a checklist to issues.
+ * [Issue Checklist](http://redminecrm.com/projects/checklist/pages/1): Adds a checklist to issues.
  * [Readme At Repositories](http://www.redmine.org/plugins/readme_at_repositories): Displays README files in repositories.
  * [Flowdock](https://github.com/flowdock/redmine_flowdock): A [Flowdock](https://www.flowdock.com) integration for Redmine.
