@@ -7,6 +7,8 @@ function prepare_fs {
   chmod -R 0755 /usr/local/redmine/{files,tmp,tmp/pdf,public/plugin_assets}
 }
 
+# Only run the migration if the environment
+# variable 'RUN_MIGRATION' is set.
 function run_migration {
   echo "Running Redmine migration scripts..."
   cd /usr/local/redmine
@@ -19,6 +21,14 @@ function generate_secret {
   RAILS_ENV=production rake generate_secret_token
 }
 
+# Install the bundle. This is useful if you install
+# a new plugin that adds new dependencies.
+function install_bundle {
+  echo "Installing bundle..."
+  cd /usr/local/redmine
+  RAILS_ENV=production bundle install --without development test
+}
+
 function launch_apache {
   echo "Launching Apache..."
   apache2ctl \
@@ -26,6 +36,9 @@ function launch_apache {
     -D FOREGROUND
 }
 
+# If 'ENABLE_GIT_USER' is set, create a `git` user
+# and add www-data to the user. This is useful if you
+# need to access a git repository on the host server.
 function enable_git_user {
   echo "Adding 'git' user and group..."
   groupadd -g 3002 git
@@ -37,19 +50,22 @@ function enable_git_user {
 # Make sure the permissions are properly set.
 prepare_fs
 
-# If 'ENABLE_GIT_USER' is set, create a `git` user
-# and add www-data to the user. This is useful if you
-# need to access a git repository on the host server.
 if [ -n "$ENABLE_GIT_USER" ]; then
   enable_git_user
 fi
 
-# Only run the migration if the environment
-# variable 'RUN_MIGRATION' is set.
+# Run migration and exit.
 if [ -n "$RUN_MIGRATION" ]; then
   run_migration
-else
-  generate_secret
-  launch_apache &
-  tail -f /var/log/apache2/*.log /usr/local/redmine/log/production.log
+  exit 0
 fi
+
+# Run bundle install.
+if [ -n "$INSTALL_BUNDLE" ]; then
+  install_bundle
+fi
+
+# Normal startup process
+generate_secret
+launch_apache &
+tail -f /var/log/apache2/*.log /usr/local/redmine/log/production.log

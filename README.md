@@ -22,6 +22,7 @@ In order to do this, we will need to create the following folders on your host s
 
  * /usr/local/redmine-store/config
  * /usr/local/redmine-store/files
+ * /usr/local/redmine-store/plugins (optional)
 
 You may place these folders somewhere else, just make sure you update the corresponding paths below.
 
@@ -100,3 +101,21 @@ Setting this variable will create a git-user and group in the VM. This is useful
  * -e "RUN_MIGRATION=True"
 
 This variable will trigger a migration to be run. This is useful for either the first time you start Redmine on an empty database, or if you've upgraded to a new version. Using this option for every start isn't recommended.
+
+ * -e "INSTALL_BUNDLE=True"
+
+Runs Bundle install before launching Redmine. This is useful for some plugins.
+
+## FAQ
+
+### How do I run plugins?
+
+First, make sure you have a plugin folder on the host, such as `/usr/local/redmine-store/plugins`.
+
+Next, mount the volume by adding:
+
+    -v /usr/local/redmine-store/plugins:/usr/local/redmine/plugins
+
+You should now be able to install plugins into this folder on the host.
+
+If your plugin requires additional rependencies, make sure to add `-e "INSTALL_BUNDLE=True"`.
