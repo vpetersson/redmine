@@ -32,6 +32,9 @@ RUN bundle install --without development test
 ADD include_files/redmine_apache.conf /etc/apache2/redmine_apache.conf
 ADD include_files/start.sh /start.sh
 
+# Free up some disk space
+RUN apt-get clean
+
 EXPOSE 3000
 
 CMD /start.sh
