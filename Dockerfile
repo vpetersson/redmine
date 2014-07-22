@@ -21,6 +21,7 @@ RUN apt-get install -y libapache2-mod-passenger
 RUN wget -O /tmp/redmine.tar.gz http://www.redmine.org/releases/redmine-2.5.2.tar.gz
 RUN tar xvfz /tmp/redmine.tar.gz -C /usr/local/
 RUN ln -s /usr/local/redmine-* /usr/local/redmine
+RUN touch /usr/local/redmine/log/production.log
 WORKDIR /usr/local/redmine
 
 # Install dependencies

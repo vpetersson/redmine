@@ -107,7 +107,29 @@ This variable will trigger a migration to be run. This is useful for either the 
 
 Runs Bundle install before launching Redmine. This is useful for some plugins.
 
+ * -e "ENABLE_LINKED_MYSQL=True"
+
+This is to enable the usage of a linked MySQL container. Please see more below.
+
 ## FAQ
+
+### How do I use this container with a linked MySQL/MariaDB container?
+
+Good question! If you're a more seasoned Docker user, chances are you've placed MySQL/MariaDB inside a Docker container already.
+
+Since Docker's built-in Link functionality relies on environment variables, we must be able to generate the `database.yml` file on-the-fly.
+
+To solve this, there's a environment varialbe named 'ENABLE_LINKED_MYSQL'. If this one is exported and set to 'True' (well actually, it doesn't matter what you set it to, as long as it is set), a function will kick in during the launch procedure that automatically generates the database file.
+
+This script relies on that you alias the link to 'mysql' (eg. mysql:mysql) and also export the following varialbes:
+
+ * REDMINE_DB
+ * REDMINE_DB_USER
+ * REDMINE_DB_PASS
+
+This also of course assumes that the database exists, and that the credentials work.
+
+Also, please not that you **should not** mount a `database.yml` file from the host-system when using this approach.
 
 ### How do I run plugins?
 
