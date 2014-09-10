@@ -39,7 +39,7 @@ With that done, you now need to create two files. First, we need to create the `
           user_name: "your_email@gmail.com"
           password: "your_password"
 
-Next, we need to configure the database connection. This is a bit trickier. While Redmine could use multiple back-ends, this container is configured ot use MySQL.
+Next, we need to configure the database connection. This is a bit trickier. While Redmine could use multiple back-ends, this container is configured to use MySQL.
 
 Since we don't run the database in the same Docker container, we need to connect over TCP/IP, or alternatively use a socket and mount that into the container.
 
