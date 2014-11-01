@@ -18,7 +18,7 @@ RUN apt-get update
 RUN apt-get install -y libapache2-mod-passenger
 
 # Fetch and extract Redmine
-RUN wget -O /tmp/redmine.tar.gz http://www.redmine.org/releases/redmine-2.6.0.tar.gz
+RUN wget -O /tmp/redmine.tar.gz http://www.redmine.org/releases/redmine-2.5.3.tar.gz
 RUN tar xvfz /tmp/redmine.tar.gz -C /usr/local/
 RUN ln -s /usr/local/redmine-* /usr/local/redmine
 RUN touch /usr/local/redmine/log/production.log
