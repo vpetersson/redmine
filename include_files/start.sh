@@ -1,10 +1,9 @@
 #!/bin/bash
-set -e
 
 prepare_fs() {
   echo "Creating necessary folders and setting permission..."
   mkdir -p /usr/local/redmine/{log,files,tmp,tmp/pdf,public/plugin_assets}
-  chown -R www-data:www-data /usr/local/redmine*
+  chown -R www-data:www-data /usr/local/redmine/*
   chmod -R 0755 /usr/local/redmine/{files,tmp,tmp/pdf,public/plugin_assets}
 }
 
