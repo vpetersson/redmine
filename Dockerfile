@@ -17,10 +17,10 @@ RUN echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty mai
 RUN apt-get update
 RUN apt-get install -y libapache2-mod-passenger
 
-# Fetch and extract Redmine
-RUN wget -O /tmp/redmine.tar.gz http://www.redmine.org/releases/redmine-2.5.3.tar.gz
-RUN tar xvfz /tmp/redmine.tar.gz -C /usr/local/
-RUN ln -s /usr/local/redmine-* /usr/local/redmine
+# Fetch the latest redmine repo (and delete `.git`) to save space)
+ENV BRANCH 2.5-stable
+RUN cd /usr/local && git clone https://github.com/redmine/redmine.git && cd redmine && git checkout $BRANCH && rm -rf .git
+
 RUN touch /usr/local/redmine/log/production.log
 WORKDIR /usr/local/redmine
 

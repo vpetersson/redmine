@@ -8,9 +8,15 @@ The container contains a full-blown Redmine installation running on Ubuntu 14.04
 
 ## Fetching the container
 
-To fetch this pre-installed Redmine container, simply run:
+To fetch this pre-installed Redmine container. There are two branches, one for 2.5 and one for 2. Pick which one you would like using the following command:
 
-    $ docker pull vpetersson/redmine
+    $ docker pull vpetersson/redmine:2.5
+
+or
+
+    $ docker pull vpetersson/redmine:2.6
+
+If you do not specify a version, the 2.5 branch is used.
 
 ## Preparing the host
 
