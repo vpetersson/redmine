@@ -2,13 +2,13 @@
 
 If you're like me, you like to keep your servers as clean as possible. However, in order to run [Redmine](http://www.redmine.org/), you need to install *a lot* of Ruby packages.
 
-With this solution, you can put Redmine in a [Docker](http://docker.io) container. This way, you can keep your host server clean, while also simplifying and speeding up the deployment of Redmine.
+With this solution, you can put Redmine in a [Docker](http://docker.io) container and keep your host server clean. In addition, it also simplifying and speeding up the deployment of Redmine.
 
 The container contains a full-blown Redmine installation running on Ubuntu 14.04 (with Apache and Passenger).
 
 ## Fetching the container
 
-To fetch this pre-installed Redmine container. There are two branches, one for 2.5 and one for 2. Pick which one you would like using the following command:
+To fetch this pre-installed Redmine container. There are two branches, one for 2.5 and one for 2.6. Pick which one you would like using the following command:
 
     $ docker pull vpetersson/redmine:2.5
 
@@ -16,7 +16,6 @@ or
 
     $ docker pull vpetersson/redmine:2.6
 
-If you do not specify a version, the 2.5 branch is used.
 
 ## Preparing the host
 
@@ -40,7 +39,7 @@ With that done, you now need to create two files. First, we need to create the `
           enable_starttls_auto: true
           address: "smtp.gmail.com"
           port: 587
-          domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+          domain: "smtp.gmail.com" # 'your.domain.com' for Google Apps
           authentication: :plain
           user_name: "your_email@gmail.com"
           password: "your_password"
@@ -83,7 +82,7 @@ On the first run, you need to run the container with the `RUN_MIGRATION=True` en
       -v /usr/local/redmine-store/config/configuration.yml:/usr/local/redmine/config/configuration.yml:ro \
       -v /usr/local/redmine-store/files:/usr/local/redmine/files \
       -e "RUN_MIGRATION=True" \
-      -i -t vpetersson/redmine
+      -i -t vpetersson/redmine:branch
 
 Assuming the migration went well, you can now start the instance using:
 
@@ -93,7 +92,7 @@ Assuming the migration went well, you can now start the instance using:
       -v /usr/local/redmine-store/files:/usr/local/redmine/files \
       -p 3000:3000 \
       --name redmine \
-      -i -t vpetersson/redmine
+      -i -t vpetersson/redmine:branch
 
 You should now be able to connect to redmine on `0.0.0.0:3000` on your host server. Since no SSL is used here, it is recommended that you use something like Nginx with SSL as a reverse proxy in front of Redmine.
 
