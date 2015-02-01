@@ -5,7 +5,7 @@ MAINTAINER Viktor Petersson <vpetersson@wireload.net>
 
 # Install required packages
 RUN apt-get -qq update && \
-    apt-get -qq install -y wget ruby ruby-dev build-essential imagemagick libmagickwand-dev libmysqlclient-dev apache2 apt-transport-https ca-certificates git-core && \
+    apt-get -qq install -y wget ruby ruby-dev build-essential imagemagick libmagickwand-dev libmysqlclient-dev apache2 apt-transport-https ca-certificates git-core subversion && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7 && \
     echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main" > /etc/apt/sources.list.d/passenger.list && \
     apt-get -qq update && \
