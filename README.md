@@ -1,5 +1,8 @@
 # Dockerized Redmine
 
+**Update**: Don't use this image. Instead use the [official image](https://hub.docker.com/_/redmine/)
+
+
 If you're like me, you like to keep your servers as clean as possible. However, in order to run [Redmine](http://www.redmine.org/), you need to install *a lot* of Ruby packages.
 
 With this solution, you can put Redmine in a [Docker](http://docker.io) container and keep your host server clean. In addition, it also simplifying and speeding up the deployment of Redmine.
@@ -8,14 +11,20 @@ The container contains a full-blown Redmine installation running on Ubuntu 14.04
 
 ## Fetching the container
 
-To fetch this pre-installed Redmine container. There are two branches, one for 2.5 and one for 2.6. Pick which one you would like using the following command:
+To fetch this pre-installed Redmine container:
 
-    $ docker pull vpetersson/redmine:2.5
+    $ docker pull vpetersson/redmine
 
 or
 
-    $ docker pull vpetersson/redmine:2.6
+    $ docker pull vpetersson/redmine:[branch]
 
+where [branch] is:
+
+ * 2.5
+ * 2.6
+ * 3.1
+ * 3.2
 
 ## Preparing the host
 
